@@ -8,12 +8,7 @@ function capitalize(str){
     let firstChar = str.slice(0,1);
     firstChar = firstChar.toUpperCase();
     let rest = str.slice(1).toLowerCase();
-    str = firstChar + rest;
-    return str;
-}
-
-function messages(win="Yay! You won!", lose="Lmao you lose. Get Rekt.", draw="It's a Draw! Bitch!"){
-    return {"win": win, "lose": lose, "draw": draw}
+    return firstChar + rest;
 }
 
 function result(playerSelection, computerSelection){
@@ -24,46 +19,43 @@ function result(playerSelection, computerSelection){
     return winDrawLose;
 }
 
+function addScore(winDrawLose){
+    let scores = (winDrawLose === "win") ? {"player": 1, "computer": 0}:
+    (winDrawLose === "lose") ? {"player": 0, "computer": 1}: 
+    {"player": 0, "computer": 0};
+    return scores;
+}
+
 function playRound(playerSelection, computerSelection){
     playerSelection = capitalize(playerSelection);
     const hands = ['Rock', 'Paper', 'Scissors'];
-    let message = messages();
+    let message = {"win": "Yay! You won!", "lose": "Lmao you lose. Get Rekt.", "draw": "It's a Draw! Bitch!"};
     if (hands.includes(playerSelection) === false){
-        return "Invalid output you illiterate fuck.";
+        return {"message":"Invalid output you illiterate fuck.", "player": 0, "computer": 0}
     } else {
         let winDrawLose = result(playerSelection, computerSelection);
-        return message[winDrawLose];
+        let round = addScore(winDrawLose);
+        round["message"] = message[winDrawLose];
+        return round;
     }
 }
 
 function game(){
-    let message = messages();
     let playerScore = 0;
     let comScore = 0;
-    for (let i = 0; i <= 5; i++) {
+    while (playerScore < 3 && comScore < 3) {
         let playerSelection = prompt("Rock, scissors, paper?", "Pick");
         let computerSelection = computerPlay();
-        let result = playRound(playerSelection, computerSelection);
-        switch (result) {
-            case message["win"]:
-                playerScore++;
-                break;
-            case message["lose"]:
-                comScore++;
-                break;
-            default:
-                i--;
-        }
+        let round = playRound(playerSelection, computerSelection);
+        playerScore += round["player"];
+        comScore += round["computer"];
         console.log("You played " + capitalize(playerSelection) + ". Computer played " + computerSelection + ".");
-        console.log(result);
+        console.log(round["message"]);
         console.log("Your Score: " + playerScore + "   VS   Computer Score: " + comScore);
-        if (playerScore === 3 || comScore === 3){
-            let winner = (playerScore > comScore) ?
-                    "Alright you won 3 out of 5 rounds first you the winner. Degenerate gambler." :
-                    "LOL you just lost to a bot, stupid much?";
-            console.log(winner);
-            return;
-        }
-     }
-
+    }
+    let winner = (playerScore > comScore) ?
+            "Alright you won 3 out of 5 rounds first you the winner. Degenerate gambler." :
+            "LOL you just lost to a bot, stupid much?";
+    console.log(winner);
+    return null;
 }
