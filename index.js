@@ -53,8 +53,36 @@ function game(){
         console.log(round["message"]);
         console.log("Your Score: " + playerScore + "   VS   Computer Score: " + comScore);
     }
+
+    
+
     let winner = (playerScore > comScore) ?
             "Alright you won 3 out of 5 rounds first you the winner. Degenerate gambler." :
             "LOL you just lost to a bot, stupid much?";
     console.log(winner);
 }
+
+const paper = document.createElement("button");
+paper.textContent = "Paper";
+const scissor = document.createElement("button");
+scissor.textContent = "Scissors";
+const rock = document.createElement("button");
+rock.textContent = "Rock";
+
+paper.addEventListener("click", () => { console.log(playRound("Paper", computerPlay())) });
+scissor.addEventListener("click", () => { console.log(playRound("Scissors", computerPlay())) });
+rock.addEventListener("click", () => { console.log(playRound("Rock", computerPlay())) });
+
+const buttons = document.createElement("div");
+const scores = document.createElement("div");
+scores.textContent = "SCORES:"
+const body = document.querySelector("body");
+body.appendChild(buttons);
+body.appendChild(scores);
+
+
+
+buttons.appendChild(paper);
+buttons.appendChild(scissor);
+buttons.appendChild(rock);
+
