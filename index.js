@@ -62,6 +62,15 @@ function game(){
     console.log(winner);
 }
 
+function updateGame(hand){
+    let result = playRound(hand, computerPlay())
+    message.textContent = result["message"];
+    playerScore += result["player"];
+    computerScore += result["computer"];
+    playerScores.textContent = "Player: " + playerScore;
+    computerScores.textContent = "Computer: " + computerScore;
+}
+
 const paper = document.createElement("button");
 paper.textContent = "Paper";
 const scissor = document.createElement("button");
@@ -69,20 +78,30 @@ scissor.textContent = "Scissors";
 const rock = document.createElement("button");
 rock.textContent = "Rock";
 
-paper.addEventListener("click", () => { console.log(playRound("Paper", computerPlay())) });
-scissor.addEventListener("click", () => { console.log(playRound("Scissors", computerPlay())) });
-rock.addEventListener("click", () => { console.log(playRound("Rock", computerPlay())) });
-
 const buttons = document.createElement("div");
-const scores = document.createElement("div");
-scores.textContent = "SCORES:"
-const body = document.querySelector("body");
-body.appendChild(buttons);
-body.appendChild(scores);
-
-
-
 buttons.appendChild(paper);
 buttons.appendChild(scissor);
 buttons.appendChild(rock);
+
+const message = document.createElement("div");
+let playerScore = 0;
+let computerScore = 0;
+const scoresBox = document.createElement("div");
+let playerScores = document.createElement("p");
+playerScores.textContent = "Player: " + playerScore;
+let computerScores = document.createElement("p");
+computerScores.textContent = "Computer: " + computerScore;
+scoresBox.appendChild(playerScores);
+scoresBox.appendChild(computerScores);
+
+
+
+const body = document.querySelector("body");
+body.appendChild(buttons);
+body.appendChild(scoresBox);
+body.appendChild(message);
+
+paper.addEventListener("click", () => updateGame("Paper"));
+scissor.addEventListener("click", () => updateGame("Scissors"));
+rock.addEventListener("click", () => updateGame("Rock"));
 
