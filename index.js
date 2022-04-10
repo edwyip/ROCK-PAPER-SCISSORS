@@ -40,35 +40,18 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
-function game(){
-    let playerScore = 0;
-    let comScore = 0;
-    while (playerScore < 3 && comScore < 3) {
-        let playerSelection = prompt("Rock, scissors, paper?", "Pick");
-        let computerSelection = computerPlay();
-        let round = playRound(playerSelection, computerSelection);
-        playerScore += round["player"];
-        comScore += round["computer"];
-        console.log("You played " + capitalize(playerSelection) + ". Computer played " + computerSelection + ".");
-        console.log(round["message"]);
-        console.log("Your Score: " + playerScore + "   VS   Computer Score: " + comScore);
-    }
-
-    
-
-    let winner = (playerScore > comScore) ?
-            "Alright you won 3 out of 5 rounds first you the winner. Degenerate gambler." :
-            "LOL you just lost to a bot, stupid much?";
-    console.log(winner);
-}
-
 function updateGame(hand){
     let result = playRound(hand, computerPlay())
-    message.textContent = result["message"];
-    playerScore += result["player"];
-    computerScore += result["computer"];
-    playerScores.textContent = "Player: " + playerScore;
-    computerScores.textContent = "Computer: " + computerScore;
+    if (playerScore === 5) message.textContent = "Alright you won. Degenerate gambler."
+    else if (computerScore === 5) message.textContent = "LOL you just lost to a bot, stupid much?"
+    else {
+        message.textContent = result["message"];
+        playerScore += result["player"];
+        computerScore += result["computer"];
+        playerScores.textContent = "Player: " + playerScore;
+        computerScores.textContent = "Computer: " + computerScore;
+    }
+
 }
 
 const paper = document.createElement("button");
@@ -93,8 +76,6 @@ let computerScores = document.createElement("p");
 computerScores.textContent = "Computer: " + computerScore;
 scoresBox.appendChild(playerScores);
 scoresBox.appendChild(computerScores);
-
-
 
 const body = document.querySelector("body");
 body.appendChild(buttons);
