@@ -57,5 +57,4 @@ function game(){
             "Alright you won 3 out of 5 rounds first you the winner. Degenerate gambler." :
             "LOL you just lost to a bot, stupid much?";
     console.log(winner);
-    return null;
 }
